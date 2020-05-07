@@ -1,0 +1,183 @@
+hr{
+    margin-block-start: 0;
+    margin-block-end: 0;
+    margin: 0;
+}
+
+.user-img{
+    width: 50%;
+    height: auto;
+    max-width: 160px;
+    min-width: 140px;
+    display: block;
+    margin: auto;
+}
+
+.heading{
+    font-size: larger;
+    font-weight: bold;
+}
+
+.text-center{
+    text-align: center;
+}
+.fol-row{
+    border-bottom: 2px black solid;
+    width: 80%;
+    padding: 10px;
+    margin: auto;
+}
+
+.profile-img{
+    width: 50%;
+    height: auto;
+    max-width: 80px;
+    min-width: 50px;
+}
+
+.nav-items{
+    list-style: none;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+.main-nav{
+    display: flex;
+    background-color: black;  
+    padding: 10px;
+    position: sticky;
+    top: 0;
+    z-index: 5;
+}
+.search-nav{
+    margin-left: 3rem;
+    width: calc(100vw - 23.625rem);
+    color: white;
+}
+.search-nav:hover{
+   color: red;
+}
+
+.nav{
+    display: flex;
+    justify-content: flex-end;
+}
+
+ul{
+    margin: 0;
+}
+
+li a{
+    padding: 10px 20px 10px 20px;
+    color: white;
+}
+
+li{
+    margin-right: 5px;
+}
+
+li a:hover,
+.active{
+    background-color: white;
+    color: black;
+}
+
+.link{
+    margin: 5px;
+    display: inline-block;
+    cursor: pointer;
+    color: #007bff;
+    /* color: rgb(124, 165, 241); */
+}
+.link:hover{
+    margin: 5px;
+    display: inline-block;
+    cursor: pointer;
+    color: #0a58ac;
+}
+
+.flex-center{
+    display: flex;
+    justify-content: center
+}
+
+.col-flex{
+    margin-left: 10px
+}
+
+.repos-col{
+    padding: 10px;
+}
+
+.repo{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 20px;
+    border: grey 1px solid;
+    padding-top: 0;
+    padding-left: 0;
+    height: 144px;
+    position: relative;
+}
+
+.flex{
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    margin-top: 20px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between
+}
+
+.left-p-10{
+    padding: 0 0 0 10px;
+}
+.rl-p-10{
+    padding: 0 10px 0 10px;
+}
+
+.java{
+    color: green;
+}
+
+.javascript{
+    color: blue;
+}
+
+.html{
+    color: red;
+}
+
+.c{
+    color: pink;
+}
+
+.python{
+    color: yellow;
+}
+
+.user-col{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly
+}
+
+.margin-left-5{
+    margin-left: 5px;
+}
+
+.disp-block{
+    display: block;
+}
+
+.shell{
+    color: orange;
+}
+
+.R{
+    color: orchid;
+}

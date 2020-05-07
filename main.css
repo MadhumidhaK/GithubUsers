@@ -1,0 +1,168 @@
+body{
+    margin: 0;
+}
+.row{
+    padding: 0px;
+    margin: 0;
+}
+
+a{
+    text-decoration: none;
+}
+
+a:hover{
+    text-decoration: none;
+}
+
+.p-20{
+    padding: 20px;
+}
+
+.search{
+    width: 40%;
+    border: 2px black solid;
+    border-radius: 5px;
+}
+
+.search:focus,
+.search:hover{
+    width: 45%;
+    height: 43px;
+    border: 2px deepskyblue solid;
+}
+
+.btn{
+    margin-left: 5px;
+    border: black 2px solid;
+    background: white;
+    color: black;
+}
+
+.btn:hover{
+    border: black 2px solid;
+    background-color: black;
+    color: white;
+}
+
+.results{
+    position: relative;
+    padding: 10px;
+    width: 80%;
+    margin: auto;
+    border-bottom: black 2px solid;
+}
+
+.results:last-of-type{
+    border-bottom: none;
+}
+
+.inline-flex{
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.profile-img{
+    width: 50%;
+    height: auto;
+    max-width: 160px;
+    min-width: 140px;
+}
+
+.user-name{
+    color: deepskyblue;
+    margin: 5px;
+}
+
+.user-name:hover{
+    color: rgb(12, 14, 143);
+}
+
+.link{
+    margin: 5px;
+}
+
+.desc-flex{
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap-reverse;
+    padding: 10px;
+}
+
+.flex-end{
+    display: flex;
+    justify-content: start;
+    align-items: end;
+}
+
+.small-text{
+    font-size: 10px;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    margin-bottom: 0;
+}
+
+.col-flex{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+}
+
+.w-80{
+    width: 80%;
+    margin: auto;
+}
+
+.pagination-flex{
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.prev{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.next{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.go-to{
+    width: 60px;
+    border: 2px solid black;
+    border-radius: 5px;
+}
+
+.go-to:focus{
+    border: 2px solid deepskyblue;
+    border-radius: 5px;
+}
+
+
+.go-to-page{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.prev-next{
+    background-color: gainsboro;
+    border: black 2px solid;
+    color: black;
+    border-radius: 5px;
+}
+
+.blue{
+    color: dodgerblue;
+}
+
+
+@media (min-width: 540px){
+
+}
