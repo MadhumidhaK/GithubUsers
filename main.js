@@ -3,7 +3,7 @@ const searchField = $('#search-key');
 const searchButton = $('#search-btn');
 const main = $('.main');
 const pagination = $('.pagination');
-const perPage = 5;
+const perPage = 10;
 var searchKey;
 
 searchButton.on('click', async function(e){

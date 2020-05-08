@@ -1,6 +1,6 @@
 const user = JSON.parse(localStorage.getItem("user-result"));
 const main = $('.main');
-const perPage = 6;
+const perPage = 10;
 const followersCount = user.followers;
 const reposCount = user.public_repos;
 
