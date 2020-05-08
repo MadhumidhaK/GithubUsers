@@ -200,6 +200,10 @@ a:hover{
     color: mediumblue;
 }
 
+.margin-20{
+    margin: 20px;
+}
+
 .no-border{
     border-bottom: none;
     border-top: none;

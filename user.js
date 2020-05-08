@@ -70,7 +70,7 @@ $(document).ready(async function(){
 
 async function showUserContent(){
     main.html("");
-    const rowDiv = $(`<div class="row"></div>`);
+    const rowDiv = $(`<div class="row margin-20"></div>`);
     const followersCol = $(`<div class="col-md-6 flex-center"></div>`);
     const repositoriesCol = $(`<div class="col-md-6 flex-center"></div>`);
 
