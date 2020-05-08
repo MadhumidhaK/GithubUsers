@@ -9,20 +9,50 @@
         <link rel="stylesheet" href="user.css">
     </head>
     <body>
+        <div class="backdrop"></div>
         <div class="main-nav">
+            <div class="toggle-button-div">
+                <button class="toggle-button">
+                    <span class="toggle-button__bar"></span>
+                    <span class="toggle-button__bar"></span>
+                    <span class="toggle-button__bar"></span>
+                </button>
+            </div>
             <a href="index.html" class="search-nav">Search</a>
             <div class="nav">
                 
-                <ul class="nav-items">
+                <ul class="main-nav-items">
                     <li>
-                        <a href="#" class='go-to-github'></a>
+                        <a href="#" class='main-nav-item'  name="github-link"></a>
                     </li>
                     <li>
-                        <a href="#" class='nav-followers'>Followers</a>
+                        <a href="#" class='main-nav-item'  name="followers">Followers</a>
                     </li>
                     <li>
-                        <a href="#" class='nav-Repositories'>Repositories</a>
+                        <a href="#" class='main-nav-item' name="repos">Repositories</a>
                     </li>
+                </ul>
+        </div>
+        </div>
+
+        <div class="mobile-nav">
+            
+            <div class="mob-nav">
+                
+                <ul class="mob-nav-items">
+                    <li class='mob-nav-item'>
+                        <a href="#" name="github-link">User</a>
+                    </li>
+                    <li class='mob-nav-item'>
+                        <a href="#" name="followers">Followers</a>
+                    </li>
+                    <li class="mob-nav-item">
+                        <a href="#" name="repos">Repositories</a>
+                    </li>
+                    <li class='mob-nav-item'>
+                        <a href="index.html"  name="search-link">Search</a>
+                    </li>
+
                 </ul>
         </div>
         </div>

@@ -1,5 +1,12 @@
 const user = JSON.parse(localStorage.getItem("user-result"));
 const main = $('.main');
+const perPage = 6;
+const followersCount = user.followers;
+const reposCount = user.public_repos;
+
+const followersNav = $(`[name="followers"]`);
+const reposNav = $('[name="repos"]');
+const githubProfile = $('[name="github-link"]');
 let userName;
 if(user.name == null || user.name == undefined  || user.name == ""){
     userName = user.login;
@@ -7,14 +14,35 @@ if(user.name == null || user.name == undefined  || user.name == ""){
 else{
     userName = user.name
 }
-document.title =  userName;
-const perPage = 6;
-const followersCount = user.followers;
-const reposCount = user.public_repos;
 
-const followersNav = $(`.nav-followers`);
-const reposNav = $('.nav-Repositories');
-const githubProfile = $('.go-to-github');
+document.title =  userName;
+
+const toggleButton = $(`.toggle-button-div`);
+const backDrop = $(`.backdrop`);
+const mobileNav = $(`.mobile-nav`);
+
+toggleButton.on('click', function(){
+    backDrop.addClass('open-block');
+    mobileNav.addClass('open-block');
+    toggleButton.addClass('not-visible');;
+})
+
+backDrop.on('click', function(){
+    console.log('backdrop Clicked');
+    hideMobNav();
+});
+
+githubProfile.on('click', function(){
+    hideMobNav();
+})
+
+function hideMobNav(){
+    console.log('Hiding Mobile Nav');
+    backDrop.removeClass('open-block');
+    mobileNav.removeClass('open-block');
+    toggleButton.removeClass('not-visible');
+}
+
 
 $(document).ready(async function(){
     displayHeading();
@@ -66,6 +94,7 @@ function getUserReposDiv( userResult){
     const reposLink = $(`<p class='link'></p>`);
     reposLink.text('Repositories');
     reposLink.on('click', function(){
+        setLocalStorage('tag', 'repos');
         return showRepositoriesInit(userResult);
     });
     reposLink.hover(function(){
@@ -94,6 +123,7 @@ function getUserFollowersDiv( userResult){
     const followerLink = $(`<p class='link'></p>`);
     followerLink.text('Followers');
     followerLink.on('click', function(){
+        setLocalStorage('tag', 'followers');
         return showFollowersInit();
     });
     followerLink.hover(function(){
@@ -124,6 +154,14 @@ async function showRepositoriesInit(){
 
 async function displayRepositories(repos, currentPage){
     main.html("");
+    const resultsCountRow = $("<div class='row results no-border'></div>");
+    const resultsCountCol = $("<div class='col-md-12 p-20'></div>");
+    const resultsCount = $(`<p  class="result-count">Total Repositories <span>${reposCount}</span></p>`);
+    const dispCount = $(`<p class="result-count">Displaying ${(currentPage * 10) - 9} to ${((currentPage * 10) - 9) + (repos.length -1)}</p>`)
+    resultsCountCol.append(resultsCount);
+    resultsCountCol.append(dispCount);
+    resultsCountRow.append(resultsCountCol);
+    main.append(resultsCountRow);
     const length = repos.length;
     const rows = Math.ceil(length/2);
     let rowDiv; 
@@ -274,12 +312,16 @@ async function getRepositories(page){
 }
 
 reposNav.on('click', function(){
+    hideMobNav();
     showRepositoriesInit();
+    setLocalStorage('tag', 'repos');
 });
 
 
 followersNav.on('click', function(){
-    showFollowersInit();    
+    hideMobNav();
+    showFollowersInit(); 
+    setLocalStorage('tag', 'followers');
 });
 
 
@@ -339,17 +381,23 @@ function displayHeading(){
 async function displayFollowers(followers, currentPage){
     
     main.html("");
+    const resultsCountRow = $("<div class='row results no-border'></div>");
+    const resultsCountCol = $("<div class='col-md-12 p-20'></div>");
+    const resultsCount = $(`<p class="result-count">Total Followers <span>${followersCount}</span></p>`);
+    const dispCount = $(`<p class="result-count">Displaying ${(currentPage * 10) - 9} to ${((currentPage * 10) - 9) + (followers.length -1)}</p>`)
+    resultsCountCol.append(resultsCount);
+    resultsCountCol.append(dispCount);
+    resultsCountRow.append(resultsCountCol);
+    main.append(resultsCountRow);
     try{
         followers.forEach(async follower => {
-            const rowDiv = $(`<div class='row fol-row'></div>`);
-            const followerDiv = $(`<div class='col-md-12 inline-flex'></div>`);
+            const rowDiv = $(`<div class='row results'></div>`);
             const userResult = await getUser(follower);   
             console.log(userResult)       
             const userCol = await createUserCol(userResult);
-            followerDiv.append(userCol)
+            rowDiv.append(userCol)
             const descCol = await createDescCol(userResult);
-            followerDiv.append(descCol)
-            rowDiv.append(followerDiv);
+            rowDiv.append(descCol)
             main.append(rowDiv);
         });
     }catch(err){
@@ -476,7 +524,7 @@ function getPagesCount(totalCount){
        return  totalCount / perPage;
     }
     else{
-        return (totalCount / perPage) + 1;
+        return Math.floor(totalCount / perPage) + 1;
     }
 }
 
@@ -487,7 +535,7 @@ function getUser(userIndex){
 }
 
 async function createUserCol(userResult){
-    const userCol = $("<div class='col-md-5 inline-flex'></div>");
+    const userCol = $("<div class='col-sm-5 inline-flex'></div>");
     const profileImage = $("<img class='profile-img'>");
     profileImage.attr('src',userResult.avatar_url);
     userCol.append(profileImage);
@@ -509,7 +557,7 @@ async function createUserCol(userResult){
     return userCol;
 }
 async function createDescCol( userResult){
-    const descCol = $("<div class='col-md-7 desc-flex'></div>");
+    const descCol = $("<div class='col-sm-7 desc-flex'></div>");
 
     const updatedDiv = $(`<div class='flex-end'></div>`);
     const lastUpdatedText = $(`<p class='small-text'>Last updated:</p>`);
@@ -522,6 +570,7 @@ async function createDescCol( userResult){
 
     descCol.append(updatedDiv);
 
+    const descDivParent = $(`<div class='col-md-6 flex-center'></div>`);
     const descDiv = $(`<div class='col-flex'></div>`)
     
     const followersDiv = getFollowersDiv(userResult);
@@ -531,16 +580,41 @@ async function createDescCol( userResult){
     const reposDiv = getReposDiv(userResult);
 
     descDiv.append(reposDiv);
-
-    descCol.append(descDiv);
+    const gitDiv = getGitDiv(user);
+    descDiv.append(gitDiv);
+    descDivParent.append(descDiv);
+    descCol.append(descDivParent);
 
     return descCol;
+}
+
+function getGitDiv(user){
+    const gitDiv = $(`<div class="no-wrap"></div>`);
+
+    const gitIcon = $(`<i class="fa fa-github"></i>`);
+    gitDiv.append(gitIcon);
+
+    const gitLink = $(`<a class='link' href='${user.html_url}'></a>`);
+    gitLink.text('GitHub');
+    gitLink.attr('target', '_blank');
+    gitLink.hover(function(){
+        gitIcon.addClass('blue');
+    });
+    gitLink.mouseleave(function(){
+        gitIcon.removeClass('blue');
+    });
+    
+    gitDiv.append(gitLink);
+
+
+
+    return gitDiv;
 }
 
 
 
 function getReposDiv( userResult){
-    const reposDiv = $(`<div></div>`);
+    const reposDiv = $(`<div class="no-wrap"></div>`);
 
     const reposIcon = $(`<i class="fa fa-folder"></i>`);
     reposDiv.append(reposIcon);
@@ -567,7 +641,7 @@ function getReposDiv( userResult){
 }
 
 function getFollowersDiv( userResult){
-    const followersDiv = $(`<div></div>`);
+    const followersDiv = $(`<div class="no-wrap"></div>`);
 
     const followersIcon = $(`<i class="fa fa-users"></i>`);
     followersDiv.append(followersIcon);

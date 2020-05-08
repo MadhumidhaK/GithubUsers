@@ -3,6 +3,7 @@ const searchField = $('#search-key');
 const searchButton = $('#search-btn');
 const main = $('.main');
 const pagination = $('.pagination');
+const perPage = 5;
 var searchKey;
 
 searchButton.on('click', async function(e){
@@ -36,6 +37,14 @@ async function search(page){
 
 async function displayResults(results, currentPage, pagesCount){
     main.html("");
+    const resultsCountRow = $("<div class='row results no-border'></div>");
+    const resultsCountCol = $("<div class='col-md-12 p-20'></div>");
+    const resultsCount = $(`<p  class="result-count">Search results <span>${results.total_count}</span></p>`);
+    const dispCount = $(`<p class="result-count">Displaying ${(currentPage * 10) - 9} to ${((currentPage * 10) - 9) + (results.items.length -1)}</p>`)
+    resultsCountCol.append(resultsCount);
+    resultsCountCol.append(dispCount);
+    resultsCountRow.append(resultsCountCol);
+    main.append(resultsCountRow);
     results.items.forEach(async result => {
         try{
             const user = await getUser(result);
@@ -89,8 +98,12 @@ function getPageNaviagation(currentPage, pagesCount){
         return goToPageFunction(goToPage);
     })
 
-    goToPageCol.append(gotoPageInput);
-    goToPageCol.append(goToPageBtn);
+    if(pagesCount > 1){
+        goToPageCol.append(gotoPageInput);
+        goToPageCol.append(goToPageBtn);
+    }
+
+   
 
     prevNext.append(goToPageCol);
     
@@ -159,29 +172,30 @@ async function prevPageFunction(currentPage){
 }
 
 function getPagesCount(totalCount){
-    const rem = totalCount % 10;
+    const rem = totalCount % perPage;
     if(rem == 0){
-       return  totalCount / 10;
+       return  totalCount / perPage;
     }
     else{
-        return (totalCount / 10) + 1;
+        return Math.floor(totalCount / perPage) + 1;
     }
 }
 
-async function createDescCol( user){
-    const descCol = $("<div class='col-md-7 desc-flex'></div>");
+async function createDescCol( user){    
+    const descCol = $("<div class='col-sm-7 desc-flex'></div>");
 
-    const updatedDiv = $(`<div class='flex-end'></div>`);
-    const lastUpdatedText = $(`<p class='small-text'>Last updated:</p>`);
+    const updatedDiv = $(`<div class='col-md-6 flex-end'></div>`);
+    const lastUpdatedText = $(`<p class='small-text'>${'Last updated: '}</p>`);
     const updatedP = $(`<p class='small-text'></p>`);
     const date = new Date(user.updated_at);
-    const updatedTime = date.toLocaleString();
+    const updatedTime = date.toLocaleDateString();
     updatedP.text(updatedTime);
     updatedDiv.append(lastUpdatedText);
     updatedDiv.append(updatedP);
 
     descCol.append(updatedDiv);
 
+    const descDivParent = $(`<div class='col-md-6 flex-center'></div>`);
     const descDiv = $(`<div class='col-flex'></div>`)
     
     const followersDiv = getFollowersDiv(user);
@@ -194,7 +208,8 @@ async function createDescCol( user){
 
     const gitDiv = getGitDiv(user);
     descDiv.append(gitDiv);
-    descCol.append(descDiv);
+    descDivParent.append(descDiv);
+    descCol.append(descDivParent);
 
     return descCol;
 }
@@ -205,7 +220,7 @@ function getUser(result){
 }
 
 function getGitDiv(user){
-    const gitDiv = $(`<div></div>`);
+    const gitDiv = $(`<div class="no-wrap"></div>`);
 
     const gitIcon = $(`<i class="fa fa-github"></i>`);
     gitDiv.append(gitIcon);
@@ -228,7 +243,7 @@ function getGitDiv(user){
 }
 
 function getReposDiv(user){
-    const reposDiv = $(`<div></div>`);
+    const reposDiv = $(`<div class="no-wrap"></div>`);
 
     const reposIcon = $(`<i class="fa fa-folder"></i>`);
     reposDiv.append(reposIcon);
@@ -256,7 +271,7 @@ function getReposDiv(user){
 }
 
 function getFollowersDiv(user){
-    const followersDiv = $(`<div></div>`);
+    const followersDiv = $(`<div class="no-wrap"></div>`);
 
     const followersIcon = $(`<i class="fa fa-users"></i>`);
     followersDiv.append(followersIcon);
@@ -297,7 +312,7 @@ function followersPageFuntion(user){
 }
 
 async function createUserCol(user){
-    const userCol = $("<div class='col-md-5 inline-flex'></div>");
+    const userCol = $("<div class='col-sm-5 inline-flex'></div>");
     const profileImage = $("<img class='profile-img'>");
     profileImage.attr('src',user.avatar_url);
     userCol.append(profileImage);
@@ -326,7 +341,7 @@ function userPageFunction(user){
 
 async function getResults(page){
     console.log(searchKey);
-    const searchUrl = `https://api.github.com/search/users?q=${searchKey}&sort=repositories&page=${page}&per_page=10`;
+    const searchUrl = `https://api.github.com/search/users?q=${searchKey}&sort=repositories&page=${page}&per_page=${perPage}`;
     try{
         const response = await fetch(searchUrl, {method:'GET'});
         const results = await response.json();

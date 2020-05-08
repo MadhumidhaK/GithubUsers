@@ -28,14 +28,14 @@ hr{
     margin: auto;
 }
 
-.profile-img{
+/* .profile-img{
     width: 50%;
     height: auto;
     max-width: 80px;
     min-width: 50px;
-}
+} */
 
-.nav-items{
+.main-nav-items{
     list-style: none;
     display: flex;
     flex-direction: row;
@@ -52,6 +52,7 @@ hr{
     z-index: 5;
 }
 .search-nav{
+    display: none;
     margin-left: 3rem;
     width: calc(100vw - 23.625rem);
     color: white;
@@ -61,7 +62,7 @@ hr{
 }
 
 .nav{
-    display: flex;
+    display: none;
     justify-content: flex-end;
 }
 
@@ -69,7 +70,7 @@ ul{
     margin: 0;
 }
 
-li a{
+.main-nav-item{
     padding: 10px 20px 10px 20px;
     color: white;
 }
@@ -78,11 +79,7 @@ li{
     margin-right: 5px;
 }
 
-li a:hover,
-.active{
-    background-color: white;
-    color: black;
-}
+
 
 .link{
     margin: 5px;
@@ -161,9 +158,11 @@ li a:hover,
 }
 
 .user-col{
+    margin: 10px;
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly
+    align-items: center;
+    justify-content: center;
 }
 
 .margin-left-5{
@@ -180,4 +179,106 @@ li a:hover,
 
 .R{
     color: orchid;
+}
+
+
+@media (min-width: 770px){
+    .user-col{
+        margin: 0;
+        align-items: initial;
+    }
+}
+
+.backdrop{
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    background-color: rgb(0, 0, 0, 0.2);
+    display: none;
+    z-index: 9;
+}
+
+.toggle-button-div{
+    width: 80%;
+}
+.toggle-button{
+    width: 3rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding-top: 0;
+    padding-bottom: 0;
+    vertical-align: middle;
+    background-color: black;
+    margin-left: 0.5rem;
+}
+
+.toggle-button__bar{
+    width: 100%;
+    height: 0.2rem;
+    background: white;
+    display: block;
+    margin: 0.4rem 0;
+}
+
+.mobile-nav{
+    display: none;
+    background-color: black;
+    position: fixed;
+    z-index: 10;
+    height: 100vh;
+    width: 55%;
+    padding: 20px;
+}
+
+.mob-nav-items{
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.mob-nav-item{
+    padding: 25px;
+}
+
+.mob-nav-item a{
+    color: white;
+}
+
+
+.mob-nav-item a:hover{
+    color: red;
+}
+
+.open-block{
+    display: block;
+}
+
+.not-visible{
+    visibility: hidden;
+}
+.visible{
+    visibility: visible;
+}
+
+@media (min-width: 500px){
+    .toggle-button-div{
+        display: none;
+    }
+
+    .search-nav{
+        display: block;
+    }
+
+    .nav{
+        display: flex;
+    }
+
+    .main-nav-item:hover,
+    .active{
+        background-color: white;
+        color: black;
+    }
 }

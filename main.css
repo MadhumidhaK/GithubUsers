@@ -22,6 +22,8 @@ a:hover{
     width: 40%;
     border: 2px black solid;
     border-radius: 5px;
+    height: 40px;
+    min-width: 275px;
 }
 
 .search:focus,
@@ -29,6 +31,10 @@ a:hover{
     width: 45%;
     height: 43px;
     border: 2px deepskyblue solid;
+}
+
+#search-btn{
+    margin: 10px;
 }
 
 .btn{
@@ -57,9 +63,22 @@ a:hover{
 }
 
 .inline-flex{
+    justify-content: center;
     display: inline-flex;
+    flex-direction: column;
     align-items: center;
     flex-wrap: wrap;
+}
+
+.inline-flex-center{
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.width-100{
+    width: 100%;
 }
 
 .profile-img{
@@ -72,6 +91,7 @@ a:hover{
 .user-name{
     color: deepskyblue;
     margin: 5px;
+    display: block;
 }
 
 .user-name:hover{
@@ -91,12 +111,19 @@ a:hover{
 
 .flex-end{
     display: flex;
-    justify-content: start;
-    align-items: end;
+    justify-content: center;
+    align-items: flex-end;
+    padding: 10px;
+}
+
+.flex-center{
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
 }
 
 .small-text{
-    font-size: 10px;
+    font-size: 12px;
     margin-block-start: 0;
     margin-block-end: 0;
     margin-bottom: 0;
@@ -125,12 +152,16 @@ a:hover{
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    padding-right: 15px;
+    padding-left: 0;
 }
 
 .next{
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    padding-right: 15px;
+    padding-left: 0;
 }
 
 .go-to{
@@ -149,6 +180,8 @@ a:hover{
     display: flex;
     justify-content: center;
     align-items: center;
+    padding-right: 15px;
+    padding-left: 0;
 }
 
 .prev-next{
@@ -162,7 +195,35 @@ a:hover{
     color: dodgerblue;
 }
 
-
-@media (min-width: 540px){
-
+.result-count span{
+    font-size: larger;
+    color: mediumblue;
 }
+
+.no-border{
+    border-bottom: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+}
+
+.no-wrap{
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
+.result-count{
+    text-align: center;
+}
+
+@media (min-width: 770px){
+    inline-flex {
+        flex-wrap: nowrap;
+        justify-content: initial;
+        flex-direction: row;
+        margin-bottom: 0;
+    }
+}
+
