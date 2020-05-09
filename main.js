@@ -43,29 +43,37 @@ async function displayResults(results, currentPage, pagesCount){
     const resultsCountRow = $("<div class='row results no-border'></div>");
     const resultsCountCol = $("<div class='col-md-12 p-20'></div>");
     const resultsCount = $(`<p  class="result-count">Search results <span>${results.total_count}</span></p>`);
-    const dispCount = $(`<p class="result-count">Displaying ${(currentPage * 10) - 9} to ${((currentPage * 10) - 9) + (results.items.length -1)}</p>`)
-    resultsCountCol.append(resultsCount);
-    resultsCountCol.append(dispCount);
+    if(result.total_count > 0){
+        const dispCount = $(`<p class="result-count">Displaying ${(currentPage * 10) - 9} to ${((currentPage * 10) - 9) + (results.items.length -1)}</p>`)
+        resultsCountCol.append(resultsCount);
+        resultsCountCol.append(dispCount);
+    }else{
+        resultsCountCol.append(resultsCount);
+
+    }
+
     resultsCountRow.append(resultsCountCol);
-    main.append(resultsCountRow);
-    results.items.forEach(async result => {
-        try{
-            const user = await getUser(result);
-            const rowDiv = $("<div class='row results'></div>");
-            const userCol = await createUserCol(user);
-            rowDiv.append(userCol)
-        
-            const descCol = await createDescCol(user);
-
+        main.append(resultsCountRow);
+        results.items.forEach(async result => {
+            try{
+                const user = await getUser(result);
+                const rowDiv = $("<div class='row results'></div>");
+                const userCol = await createUserCol(user);
+                rowDiv.append(userCol)
             
-            rowDiv.append(descCol);
-            main.append(rowDiv)
-        }catch(err){
-            console.log('Error Occured');
-            console.log(err);
-        }
-    });
-
+                const descCol = await createDescCol(user);
+    
+                
+                rowDiv.append(descCol);
+                main.append(rowDiv)
+            }catch(err){
+                console.log('Error Occured');
+                console.log(err);
+            }
+        });
+    
+    
+   
    
     }
     else{
