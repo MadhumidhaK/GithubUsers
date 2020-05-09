@@ -283,7 +283,7 @@ function getReposPageNaviagation(currentPage, pagesCount){
     const nextCol = $(`<div class="col-md-6 next"></div>`);
     const nextPageLink = $(`<button class='btn prev-next'>Next</button>`);
 
-    if(currentPage < pagesCount){
+    if(currentPage < pagesCount && currentPage <= 101){
         
         nextPageLink.on('click', function(){
             if(currentPage < 1) currentPage = pagesCount;

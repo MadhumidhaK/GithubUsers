@@ -37,6 +37,9 @@ async function search(page){
 
 async function displayResults(results, currentPage, pagesCount){
     main.html("");
+    // const warningMessageDIv = $("<div class='row results no-border'></div>");
+    
+    if(currentPage < 101 || results.total_count < 1001){
     const resultsCountRow = $("<div class='row results no-border'></div>");
     const resultsCountCol = $("<div class='col-md-12 p-20'></div>");
     const resultsCount = $(`<p  class="result-count">Search results <span>${results.total_count}</span></p>`);
@@ -63,9 +66,16 @@ async function displayResults(results, currentPage, pagesCount){
         }
     });
 
+   
+    }
+    else{
+        const warningMessage = $(`<p class='text-center'>First 1000 search results can only be fetched</p>`);
+        main.append(warningMessage);
+    }
     pagination.html("");
     const prevNext = getPageNaviagation(currentPage, pagesCount);
     pagination.append(prevNext);
+    
 }
 
 function getPageNaviagation(currentPage, pagesCount){
@@ -78,6 +88,7 @@ function getPageNaviagation(currentPage, pagesCount){
     if(currentPage > 1){
         prevPageLink.on('click', function(){
             if(currentPage > pagesCount) currentPage = pagesCount;
+            if(currentPage > 100) currentPage = 101
             return prevPageFunction(currentPage);
         })
 
@@ -110,7 +121,7 @@ function getPageNaviagation(currentPage, pagesCount){
     const nextCol = $(`<div class="col-md-4 next"></div>`);
     const nextPageLink = $(`<button class='btn prev-next'>Next</button>`);
 
-    if(currentPage < pagesCount){
+    if(currentPage < pagesCount && currentPage < 100){
         
         nextPageLink.on('click', function(){
             if(currentPage < 1) currentPage = pagesCount;
