@@ -43,7 +43,7 @@ async function displayResults(results, currentPage, pagesCount){
     const resultsCountRow = $("<div class='row results no-border'></div>");
     const resultsCountCol = $("<div class='col-md-12 p-20'></div>");
     const resultsCount = $(`<p  class="result-count">Search results <span>${results.total_count}</span></p>`);
-    if(result.total_count > 0){
+    if(results.total_count > 0){
         const dispCount = $(`<p class="result-count">Displaying ${(currentPage * 10) - 9} to ${((currentPage * 10) - 9) + (results.items.length -1)}</p>`)
         resultsCountCol.append(resultsCount);
         resultsCountCol.append(dispCount);
