@@ -153,91 +153,100 @@ async function showRepositoriesInit(){
 
 
 async function displayRepositories(repos, currentPage){
-    main.html("");
-    const resultsCountRow = $("<div class='row results no-border'></div>");
-    const resultsCountCol = $("<div class='col-md-12 p-20'></div>");
-    const resultsCount = $(`<p  class="result-count">Total Repositories <span>${reposCount}</span></p>`);
-    if(reposCount > 0){
-        const dispCount = $(`<p class="result-count">Displaying ${(currentPage * 10) - 9} to ${((currentPage * 10) - 9) + (repos.length -1)}</p>`)
-        resultsCountCol.append(resultsCount);
-        resultsCountCol.append(dispCount);
-    }else{
-        resultsCountCol.append(resultsCount);
-
-    }
+    try{
+        main.html("");
+        const resultsCountRow = $("<div class='row results no-border'></div>");
+        const resultsCountCol = $("<div class='col-md-12 p-20'></div>");
+        const resultsCount = $(`<p  class="result-count">Total Repositories <span>${reposCount}</span></p>`);
+        if(reposCount > 0){
+            const dispCount = $(`<p class="result-count">Displaying ${(currentPage * 10) - 9} to ${((currentPage * 10) - 9) + (repos.length -1)}</p>`)
+            resultsCountCol.append(resultsCount);
+            resultsCountCol.append(dispCount);
+        }else{
+            resultsCountCol.append(resultsCount);
     
-    resultsCountRow.append(resultsCountCol);
-    main.append(resultsCountRow);
-    const length = repos.length;
-    const rows = Math.ceil(length/2);
-    let rowDiv; 
-    repos.forEach(async (repo, index) => {
-
-        if(index % 2 == 0){
-            rowDiv = $(`<div class="row"></div>`);
-            main.append(rowDiv);
         }
-        const colDiv12 = $(`<div class="col-md-6 repos-col"></div>`);
-        const colDiv = $(`<div class="col-md-12 repo"></div>`);
-        const repoDiv = $(`<div></div>`);
+        
+        resultsCountRow.append(resultsCountCol);
+        main.append(resultsCountRow);
+        const length = repos.length;
+        const rows = Math.ceil(length/2);
+        let rowDiv; 
+        repos.forEach(async (repo, index) => {
+    
+            if(index % 2 == 0){
+                rowDiv = $(`<div class="row"></div>`);
+                main.append(rowDiv);
+            }
+            const colDiv12 = $(`<div class="col-md-6 repos-col"></div>`);
+            const colDiv = $(`<div class="col-md-12 repo"></div>`);
+            const repoDiv = $(`<div></div>`);
+    
+            const repoLink = $(`<a class="link disp-block" href="${repo.html_url}">${repo.name}</a>`);
+            repoDiv.append(repoLink);
+    
+            const repoDesctext = (repo.description != null && repo.description != undefined && repo.description != "" ) ?
+                                        repo.description : "";
+            const repoDesc = $(`<p class="small-text rl-p-10">${repoDesctext}</p>`);
+            repoDiv.append(repoDesc);
+    
+            const repoDetails = $(`<div class='flex rl-p-10'></div>`);
+    
+            const languageDiv = $(`<div class='lang-div'></div>`);
+            if(repo.language){
+                
+                const languageIcon = $(`<i class="fa fa-circle"></i>`);
+                languageDiv.append(languageIcon);
+                const repoLangLowerCase = repo.language.toLowerCase();
+                languageIcon.addClass(repoLangLowerCase);
+                if(repoLangLowerCase == 'c#') languageIcon.addClass('c');
+                const language = $(`<span class='detail'>${repo.language}</span>`);
+                languageDiv.append(language);
+               
+            }
+            repoDetails.append(languageDiv);
+    
+            const starDiv = $(`<div class='star-div'></div>`);
+            const starIcon = $(`<i class="fa fa-star"></i>`);
+            starDiv.append(starIcon);
+            const starCount = $(`<span class='detail'>${repo.stargazers_count}</span>`);
+            starDiv.append(starCount);
+            repoDetails.append(starDiv);
+    
+    
+            const updatedDiv = $(`<div class='last-updated'></div>`);
+            const date = new Date(repo.updated_at);
+            const updatedTime = date.toLocaleDateString();
+    
+            const updatedText = $(`<span class='small-text'>Last Updated: ${updatedTime}</span>`);
+            updatedDiv.append(updatedText);
+            repoDetails.append(updatedDiv);
+    
+            repoDiv.append(repoDetails);
+    
+            colDiv.append(repoDiv)
+            colDiv12.append(colDiv);
+            rowDiv.append(colDiv12);
+        });
+    
+        const pagesNav = $('.pages-nav');
+        pagesNav.html("");
+        const paginationRow = $(`<div class="row"></div>`);
+        const pagination = $(`<div class="col-md-12 pagination"></div>`);
+        paginationRow.append(pagination);
+        pagination.html("");
+        const pagesCount = getPagesCount(reposCount);
+        const prevNext = getReposPageNaviagation(currentPage, pagesCount);
+        pagination.append(prevNext);
+        pagesNav.append(paginationRow);
+    }catch(err){
+        main.html("")
+        const warningMessage = $(`<p class='text-center'>API Rate Limit Exceeded Please try after an hour</p>`);
+        main.append(warningMessage);
+        console.log('Error Occured');
+        console.log(err);
+    }
 
-        const repoLink = $(`<a class="link disp-block" href="${repo.html_url}">${repo.name}</a>`);
-        repoDiv.append(repoLink);
-
-        const repoDesctext = (repo.description != null && repo.description != undefined && repo.description != "" ) ?
-                                    repo.description : "";
-        const repoDesc = $(`<p class="small-text rl-p-10">${repoDesctext}</p>`);
-        repoDiv.append(repoDesc);
-
-        const repoDetails = $(`<div class='flex rl-p-10'></div>`);
-
-        const languageDiv = $(`<div class='lang-div'></div>`);
-        if(repo.language){
-            
-            const languageIcon = $(`<i class="fa fa-circle"></i>`);
-            languageDiv.append(languageIcon);
-            const repoLangLowerCase = repo.language.toLowerCase();
-            languageIcon.addClass(repoLangLowerCase);
-            if(repoLangLowerCase == 'c#') languageIcon.addClass('c');
-            const language = $(`<span class='detail'>${repo.language}</span>`);
-            languageDiv.append(language);
-           
-        }
-        repoDetails.append(languageDiv);
-
-        const starDiv = $(`<div class='star-div'></div>`);
-        const starIcon = $(`<i class="fa fa-star"></i>`);
-        starDiv.append(starIcon);
-        const starCount = $(`<span class='detail'>${repo.stargazers_count}</span>`);
-        starDiv.append(starCount);
-        repoDetails.append(starDiv);
-
-
-        const updatedDiv = $(`<div class='last-updated'></div>`);
-        const date = new Date(repo.updated_at);
-        const updatedTime = date.toLocaleDateString();
-
-        const updatedText = $(`<span class='small-text'>Last Updated: ${updatedTime}</span>`);
-        updatedDiv.append(updatedText);
-        repoDetails.append(updatedDiv);
-
-        repoDiv.append(repoDetails);
-
-        colDiv.append(repoDiv)
-        colDiv12.append(colDiv);
-        rowDiv.append(colDiv12);
-    });
-
-    const pagesNav = $('.pages-nav');
-    pagesNav.html("");
-    const paginationRow = $(`<div class="row"></div>`);
-    const pagination = $(`<div class="col-md-12 pagination"></div>`);
-    paginationRow.append(pagination);
-    pagination.html("");
-    const pagesCount = getPagesCount(reposCount);
-    const prevNext = getReposPageNaviagation(currentPage, pagesCount);
-    pagination.append(prevNext);
-    pagesNav.append(paginationRow);
 }
 
 
@@ -250,6 +259,9 @@ async function repoPrevPageFunction(currentPage){
         displayRepositories(results, currentPage - 1);
         
     }catch(err){
+        main.html("")
+        const warningMessage = $(`<p class='text-center'>API Rate Limit Exceeded Please try after an hour</p>`);
+        main.append(warningMessage);
         console.log('Error Occured');
         console.log(err);
     }
@@ -312,6 +324,9 @@ async function getRepositories(page){
         const repos = await response.json();
         return repos;
     }catch(err){
+        main.html("")
+        const warningMessage = $(`<p class='text-center'>API Rate Limit Exceeded Please try after an hour</p>`);
+        main.append(warningMessage);
         console.log('Error Occured');
         console.log(err);
     }
@@ -387,20 +402,27 @@ function displayHeading(){
 async function displayFollowers(followers, currentPage){
     
     main.html("");
-    const resultsCountRow = $("<div class='row results no-border'></div>");
-    const resultsCountCol = $("<div class='col-md-12 p-20'></div>");
-    const resultsCount = $(`<p class="result-count">Total Followers <span>${followersCount}</span></p>`);
-    if(followersCount > 0){
-        const dispCount = $(`<p class="result-count">Displaying ${(currentPage * 10) - 9} to ${((currentPage * 10) - 9) + (followers.length -1)}</p>`)
-        resultsCountCol.append(resultsCount);
-        resultsCountCol.append(dispCount);
-    }else{
-        resultsCountCol.append(resultsCount);
+    try{
+        const resultsCountRow = $("<div class='row results no-border'></div>");
+        const resultsCountCol = $("<div class='col-md-12 p-20'></div>");
+        const resultsCount = $(`<p class="result-count">Total Followers <span>${followersCount}</span></p>`);
+        if(followersCount > 0){
+            const dispCount = $(`<p class="result-count">Displaying ${(currentPage * 10) - 9} to ${((currentPage * 10) - 9) + (followers.length -1)}</p>`)
+            resultsCountCol.append(resultsCount);
+            resultsCountCol.append(dispCount);
+        }else{
+            resultsCountCol.append(resultsCount);
 
+        }
+        
+        resultsCountRow.append(resultsCountCol);
+        main.append(resultsCountRow);
+    }catch(err){
+        main.html("")
+        const warningMessage = $(`<p class='text-center'>API Rate Limit Exceeded Please try after an hour</p>`);
+        main.append(warningMessage);
     }
     
-    resultsCountRow.append(resultsCountCol);
-    main.append(resultsCountRow);
     try{
         followers.forEach(async follower => {
             const rowDiv = $(`<div class='row results'></div>`);
@@ -413,6 +435,9 @@ async function displayFollowers(followers, currentPage){
             main.append(rowDiv);
         });
     }catch(err){
+        main.html("")
+        const warningMessage = $(`<p class='text-center'>API Rate Limit Exceeded Please try after an hour</p>`);
+        main.append(warningMessage);
         console.log("Error Occured");
         console.log(err)
     }
@@ -509,6 +534,9 @@ async function nextPageFunction(currentPage){
         displayFollowers(results, currentPage + 1);
         
     }catch(err){
+        main.html("");
+        const warningMessage = $(`<p class='text-center'>API Rate Limit Exceeded Please try after an hour</p>`);
+        main.append(warningMessage);
         console.log('Error Occured');
         console.log(err);
     }
@@ -524,6 +552,9 @@ async function prevPageFunction(currentPage){
         displayFollowers(results, currentPage - 1);
         
     }catch(err){
+        main.html("")
+        const warningMessage = $(`<p class='text-center'>API Rate Limit Exceeded Please try after an hour</p>`);
+        main.append(warningMessage);
         console.log('Error Occured');
         console.log(err);
     }
@@ -708,6 +739,9 @@ async function getFollowers(page){
         const followers = await response.json();
         return followers;
     }catch(err){
+        main.html("");
+        const warningMessage = $(`<p class='text-center'>API Rate Limit Exceeded Please try after an hour</p>`);
+        main.append(warningMessage);
         console.log('Error Occured');
         console.log(err);
     }

@@ -54,8 +54,9 @@ async function displayResults(results, currentPage, pagesCount){
 
     resultsCountRow.append(resultsCountCol);
         main.append(resultsCountRow);
-        results.items.forEach(async result => {
-            try{
+        try{
+            results.items.forEach(async result => {
+               try{
                 const user = await getUser(result);
                 const rowDiv = $("<div class='row results'></div>");
                 const userCol = await createUserCol(user);
@@ -65,12 +66,26 @@ async function displayResults(results, currentPage, pagesCount){
     
                 
                 rowDiv.append(descCol);
-                main.append(rowDiv)
-            }catch(err){
-                console.log('Error Occured');
-                console.log(err);
-            }
-        });
+                main.append(rowDiv);
+               }catch(err){
+                   pagination.html("")
+                    main.html("")
+                    const warningMessage = $(`<p class='text-center'>API Rate Limit Exceeded Please try after an hour</p>`);
+                    main.append(warningMessage);
+                    console.log('Error Occured');
+                    console.log(err);
+               }
+               
+            });
+
+        }catch(err){
+            main.html("")
+            const warningMessage = $(`<p class='text-center'>API Rate Limit Exceeded Please try after an hour</p>`);
+            main.append(warningMessage);
+            console.log('Error Occured');
+            console.log(err);
+        }
+        
     
     
    
@@ -111,7 +126,7 @@ function getPageNaviagation(currentPage, pagesCount){
     const goToPageBtn = $(`<button class='btn'><i class="fa fa-angle-double-right"></i></button>`);
     
     goToPageBtn.on('click', function(){
-        const goToPage = gotoPageInput.val();
+        let goToPage = gotoPageInput.val();
         if(goToPage < 1) goToPage = 1;
         if(goToPage > pagesCount) goToPage = pagesCount;
         return goToPageFunction(goToPage);
