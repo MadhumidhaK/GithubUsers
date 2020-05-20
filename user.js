@@ -159,7 +159,7 @@ async function displayRepositories(repos, currentPage){
         const resultsCountCol = $("<div class='col-md-12 p-20'></div>");
         const resultsCount = $(`<p  class="result-count">Total Repositories <span>${reposCount}</span></p>`);
         if(reposCount > 0){
-            const dispCount = $(`<p class="result-count">Displaying ${(currentPage * 10) - 9} to ${((currentPage * 10) - 9) + (repos.length -1)}</p>`)
+            const dispCount = $(`<p class="result-count">Displaying ${(currentPage * 6) - 5} to ${((currentPage * 6) - 5) + (repos.length -1)}</p>`)
             resultsCountCol.append(resultsCount);
             resultsCountCol.append(dispCount);
         }else{
@@ -407,7 +407,7 @@ async function displayFollowers(followers, currentPage){
         const resultsCountCol = $("<div class='col-md-12 p-20'></div>");
         const resultsCount = $(`<p class="result-count">Total Followers <span>${followersCount}</span></p>`);
         if(followersCount > 0){
-            const dispCount = $(`<p class="result-count">Displaying ${(currentPage * 10) - 9} to ${((currentPage * 10) - 9) + (followers.length -1)}</p>`)
+            const dispCount = $(`<p class="result-count">Displaying ${(currentPage * 6) - 5} to ${((currentPage * 6) - 5) + (followers.length -1)}</p>`)
             resultsCountCol.append(resultsCount);
             resultsCountCol.append(dispCount);
         }else{
