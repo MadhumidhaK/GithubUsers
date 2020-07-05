@@ -623,7 +623,7 @@ async function createDescCol( userResult){
     const reposDiv = getReposDiv(userResult);
 
     descDiv.append(reposDiv);
-    const gitDiv = getGitDiv(user);
+    const gitDiv = getGitDiv(userResult);
     descDiv.append(gitDiv);
     descDivParent.append(descDiv);
     descCol.append(descDivParent);
