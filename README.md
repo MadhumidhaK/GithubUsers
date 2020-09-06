@@ -2,7 +2,7 @@
 Search GitHub Users.
 
 
-A simple webpage, where we can search for Github users and view their repositories and followers.
+Simple webpage to search github users and to view their repositiories and followers.
 Developed using HTML, CSS and JS.
 
 
